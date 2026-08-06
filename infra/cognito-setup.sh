@@ -16,27 +16,30 @@ if ! command -v jq &> /dev/null; then
   exit 1
 fi
 
-# Guard against creating a duplicate pool if this has already been run.
+# Check if pool already exists — warn but don't block (old pool may have been deleted)
 EXISTING_POOL_ID=$(aws cognito-idp list-user-pools --max-results 20 --region "$REGION" \
-  | jq -r ".UserPools[] | select(.Name==\"$POOL_NAME\") | .Id")
+  | jq -r ".UserPools[] | select(.Name==\"$POOL_NAME\") | .Id // empty")
 
 if [ -n "$EXISTING_POOL_ID" ]; then
   echo "A pool named '$POOL_NAME' already exists: $EXISTING_POOL_ID"
-  echo "Not creating a duplicate. Delete it first if you actually want a fresh one:"
+  echo "Delete it first if you want a fresh one:"
   echo "  aws cognito-idp delete-user-pool --user-pool-id $EXISTING_POOL_ID --region $REGION"
   exit 1
 fi
 
 echo "== Creating Cognito User Pool: $POOL_NAME (region: $REGION) =="
 
-# NOTE: auto_verified_attributes is intentionally omitted — that requires
-# SES to actually deliver verification emails, which isn't set up and
-# isn't worth setting up for a 6-hour demo. Users can sign up and sign in
-# immediately without a verification step.
+# Enable auto-verification of email so Cognito sends a 6-digit code.
+# At low volume (<50 emails/day), Cognito uses its own built-in sender
+# so you don't need SES configured.
 POOL_JSON=$(aws cognito-idp create-user-pool \
   --pool-name "$POOL_NAME" \
   --region "$REGION" \
   --username-attributes email \
+  --auto-verified-attributes email \
+  --verification-message-template '{
+    "DefaultEmailOption": "CONFIRM_WITH_CODE"
+  }' \
   --policies '{
     "PasswordPolicy": {
       "MinimumLength": 8,
