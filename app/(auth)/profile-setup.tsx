@@ -144,9 +144,7 @@ export default function ProfileSetup() {
   if (step === "welcome") {
     return (
       <View className="flex-1 bg-background px-6 justify-center">
-        <View className="w-12 h-12 rounded-md bg-primary items-center justify-center mb-6">
-          <Text className="text-primary-foreground font-sans-bold text-xl">C</Text>
-        </View>
+        <Text className="font-display text-2xl text-primary tracking-tight mb-6 text-center">COMMUTEity</Text>
         <Text className="font-display text-4xl text-text-primary mb-3 tracking-tight">
           Welcome to Commuteity
         </Text>

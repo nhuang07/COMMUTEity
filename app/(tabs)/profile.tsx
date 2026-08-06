@@ -17,7 +17,7 @@ export default function ProfileScreen() {
     (profile.socials.instagram || profile.socials.linkedin || profile.socials.discord);
 
   function handleEditProfile() {
-    Alert.alert("Edit Profile", "Profile editing coming soon.");
+    router.push("/edit-profile");
   }
 
   function handleSignOut() {

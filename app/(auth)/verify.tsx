@@ -10,8 +10,8 @@ import { theme } from "@/constants/theme";
 export default function Verify() {
   const { email: emailParam, password: passwordParam } = useLocalSearchParams<{ email: string; password: string }>();
   const email = emailParam || getPendingEmail() || "";
+  const password = passwordParam || "";
   const [code, setCode] = useState("");
-  const [password, setPassword] = useState(passwordParam || "");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
@@ -20,10 +20,6 @@ export default function Verify() {
   async function handleVerify() {
     if (code.trim().length !== 6) {
       setError("Enter the 6-digit code we sent you.");
-      return;
-    }
-    if (!password) {
-      setError("Enter your password to complete sign-in.");
       return;
     }
     setError("");
@@ -70,13 +66,6 @@ export default function Verify() {
           keyboardType="number-pad"
           maxLength={6}
           className="font-sans-semibold text-center text-2xl tracking-[8px]"
-        />
-
-        <Input
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Re-enter your password"
-          secureTextEntry
         />
       </View>
 

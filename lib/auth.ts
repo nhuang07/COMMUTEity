@@ -1,5 +1,5 @@
 const COGNITO_ENDPOINT = "https://cognito-idp.us-east-1.amazonaws.com/";
-const CLIENT_ID = "3vol3r2hfaci6rep17oaahtufo";
+const CLIENT_ID = "omsrmqjup4iba6eu2ilcb3e9k";
 
 async function cognitoRequest(target: string, body: object): Promise<Record<string, unknown>> {
   const res = await fetch(COGNITO_ENDPOINT, {

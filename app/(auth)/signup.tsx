@@ -47,12 +47,10 @@ export default function Signup() {
       className="flex-1 bg-background px-6 justify-center"
     >
       <View className="mb-10">
-        <View className="w-10 h-10 rounded-md bg-primary items-center justify-center mb-6">
-          <Text className="text-primary-foreground font-sans-bold text-lg">C</Text>
-        </View>
+        <Text className="font-display text-2xl text-primary tracking-tight mb-6 text-center">COMMUTEity</Text>
         <Text className="font-display text-3xl text-text-primary mb-2 tracking-tight">Create your account</Text>
         <Text className="font-sans text-base text-text-secondary">
-          Only UBC students can join Commutity.
+          Only UBC students can join Commuteity.
         </Text>
       </View>
 
