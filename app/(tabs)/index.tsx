@@ -97,11 +97,15 @@ export default function HomeScreen() {
     setCommute((prev) => ({ ...prev, status: "uploading" }));
 
     try {
-      const notifications = await endCommute({
-        userId,
-        sessionId,
-        checkpoints: checkpointsRef.current,
-      });
+      let notifications: Awaited<ReturnType<typeof endCommute>> = [];
+
+      if (checkpointsRef.current.length > 0) {
+        notifications = await endCommute({
+          userId,
+          sessionId,
+          checkpoints: checkpointsRef.current,
+        });
+      }
 
       checkpointsRef.current = [];
       addNotifications(notifications);
@@ -114,10 +118,12 @@ export default function HomeScreen() {
           "Commute match found!",
           "You may share a commute with someone. Check the Matches tab."
         );
+      } else {
+        Alert.alert("Commute ended", "Your commute has been recorded.");
       }
     } catch (e) {
-      const msg = e instanceof Error ? e.message : JSON.stringify(e);
-      Alert.alert("Upload failed", msg);
+      const msg = e instanceof Error ? e.message : String(e);
+      Alert.alert("Upload failed", msg || "Unknown error");
       setCommute({ status: "idle", sessionId: null, startedAt: null, userId: null });
       setElapsed(0);
     }
