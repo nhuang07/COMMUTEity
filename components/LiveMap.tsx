@@ -28,6 +28,11 @@ export function LiveMap({ tracking = false, topOverlay, bottomOverlay }: LiveMap
   const mapRef = useRef<MapView>(null);
   const subscriptionRef = useRef<Location.LocationSubscription | null>(null);
   const wasTrackingRef = useRef(false);
+  // Camera auto-follows the live dot by default; a manual drag pauses it
+  // until the user taps recenter. Kept as a ref, not state — updating it
+  // must never itself trigger a re-render/effect loop.
+  const isFollowingRef = useRef(true);
+  const [isFollowing, setIsFollowing] = useState(true);
 
   useEffect(() => {
     if (Platform.OS === "web") return;
@@ -54,11 +59,14 @@ export function LiveMap({ tracking = false, topOverlay, bottomOverlay }: LiveMap
       }
 
       subscriptionRef.current = await Location.watchPositionAsync(
-        { accuracy: Location.Accuracy.Balanced, timeInterval: 4000, distanceInterval: 10 },
+        { accuracy: Location.Accuracy.BestForNavigation, timeInterval: 3000, distanceInterval: 5 },
         (update) => {
           if (cancelled) return;
           const next = { latitude: update.coords.latitude, longitude: update.coords.longitude };
           setCoords(next);
+          if (isFollowingRef.current) {
+            mapRef.current?.animateCamera({ center: next }, { duration: 500 });
+          }
         }
       );
     }
@@ -84,7 +92,16 @@ export function LiveMap({ tracking = false, topOverlay, bottomOverlay }: LiveMap
 
   function recenter() {
     if (!coords || !mapRef.current) return;
+    isFollowingRef.current = true;
+    setIsFollowing(true);
     mapRef.current.animateToRegion({ ...coords, ...DEFAULT_DELTA }, 400);
+  }
+
+  function handlePanDrag() {
+    if (isFollowingRef.current) {
+      isFollowingRef.current = false;
+      setIsFollowing(false);
+    }
   }
 
   if (status === "unsupported") {
@@ -128,6 +145,7 @@ export function LiveMap({ tracking = false, topOverlay, bottomOverlay }: LiveMap
         toolbarEnabled={false}
         rotateEnabled={false}
         pitchEnabled={false}
+        onPanDrag={handlePanDrag}
       >
         {routeCoords.length > 1 && (
           <Polyline
@@ -138,7 +156,7 @@ export function LiveMap({ tracking = false, topOverlay, bottomOverlay }: LiveMap
             lineJoin="round"
           />
         )}
-        <Marker coordinate={coords} anchor={{ x: 0.5, y: 0.5 }} tracksViewChanges={false}>
+        <Marker coordinate={coords} anchor={{ x: 0.5, y: 0.5 }}>
           <View style={[styles.markerRing, tracking && styles.markerRingTracking]}>
             <View style={styles.markerDot} />
           </View>
@@ -154,11 +172,15 @@ export function LiveMap({ tracking = false, topOverlay, bottomOverlay }: LiveMap
 
           <Pressable
             onPress={recenter}
-            style={styles.recenterButton}
+            style={[styles.recenterButton, isFollowing && styles.recenterButtonActive]}
             accessibilityRole="button"
             accessibilityLabel="Recenter map on your location"
           >
-            <Ionicons name="navigate" size={16} color={theme.colors.textPrimary} />
+            <Ionicons
+              name="navigate"
+              size={16}
+              color={isFollowing ? theme.colors.primaryForeground : theme.colors.textPrimary}
+            />
           </Pressable>
         </View>
 
@@ -250,5 +272,9 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.border,
     alignItems: "center",
     justifyContent: "center",
+  },
+  recenterButtonActive: {
+    backgroundColor: theme.colors.primary,
+    borderColor: theme.colors.primary,
   },
 });

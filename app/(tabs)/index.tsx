@@ -138,8 +138,8 @@ export default function HomeScreen() {
           </View>
         }
         bottomOverlay={
-          <View style={styles.commuteCard}>
-            <View style={styles.commuteHeader}>
+          <View style={styles.bottomStack}>
+            <View style={styles.commuteCard}>
               <View style={{ flex: 1 }}>
                 <Text style={styles.commuteLabel}>Commute to</Text>
                 <Text style={styles.commuteDestination} numberOfLines={1}>
@@ -189,19 +189,19 @@ const styles = StyleSheet.create({
     fontFamily: theme.fontFamily.semibold,
     color: theme.colors.textPrimary,
   },
+  bottomStack: {
+    gap: theme.spacing.sm,
+  },
   commuteCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
     backgroundColor: theme.colors.surface + "F2",
     borderWidth: 1,
     borderColor: theme.colors.border,
     borderRadius: theme.borderRadius.lg,
     padding: theme.spacing.lg,
-    gap: theme.spacing.md,
-    ...theme.shadow.md,
-  },
-  commuteHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
+    ...theme.shadow.sm,
   },
   commuteLabel: {
     fontSize: 11,

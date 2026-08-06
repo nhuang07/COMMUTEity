@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ActivityIndicator, Pressable, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { theme } from '../constants/theme';
 
@@ -19,14 +19,21 @@ export function Button({
   loading = false,
   size = 'default',
 }: ButtonProps) {
+  // NB: NativeWind wraps every Pressable to support `className`, and that
+  // wrapper's style pipeline doesn't handle Pressable's function-as-style
+  // form — it silently drops it, leaving only the Text visible. Track
+  // pressed state ourselves and pass a plain style array instead.
+  const [pressed, setPressed] = useState(false);
   const v = variantStyles[variant];
   const isDisabled = disabled || loading;
 
   return (
     <Pressable
       onPress={isDisabled ? undefined : onPress}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
       disabled={isDisabled}
-      style={({ pressed }) => [
+      style={[
         styles.base,
         v.container,
         size === 'large' && styles.large,
