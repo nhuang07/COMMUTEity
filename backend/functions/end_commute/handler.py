@@ -10,6 +10,7 @@ write the result back.
 import json
 import time
 import boto3
+from decimal import Decimal
 
 from matching_logic import find_matches
 from generate_explanation import generate_match_explanation
@@ -90,7 +91,7 @@ def handler(event, context):
             ),
             ExpressionAttributeValues={
                 ":zero": 0, ":one": 1,
-                ":ratio": match["result"]["overlap_ratio"],
+                ":ratio": Decimal(str(match["result"]["overlap_ratio"])),
                 ":now": now, ":true": True,
             },
         )
