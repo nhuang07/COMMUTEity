@@ -474,7 +474,9 @@ GSI: `status-index` on `status` attribute for querying pending/connected matches
 - **Minimal onboarding.** Three fields, no photo, no bio. Under 60 seconds.
 - **Notification-driven discovery.** Users don't go looking for matches — matches come to them via push.
 
-### 5.3 Colour and Typography (Suggested)
+### 5.3 Colour and Typography (Superseded — see 5.4)
+
+The table below is the original hackathon-planning suggestion and is kept for history only; the app no longer implements it. Section 5.4 documents what is actually built.
 
 | Token | Value | Usage |
 |-------|-------|-------|
@@ -485,6 +487,30 @@ GSI: `status-index` on `status` attribute for querying pending/connected matches
 | Text Primary | `#0F172A` (slate-900) | Headings, body |
 | Text Secondary | `#64748B` (slate-500) | Labels, timestamps |
 | Font | System default (SF Pro / Roboto) | No custom fonts at MVP |
+
+### 5.4 Design System (as built)
+
+Dark-first, shadcn/ui-inspired: restrained neutrals, hairline borders, low-chrome components, one saturated accent. Direction pinned by the user; craft references were shadcn/ui (component precision) and Strava/Komoot-style commute-map apps (the live map surface). Full token values live in `constants/theme.ts` (native `StyleSheet` values) and `tailwind.config.js` (NativeWind class names) — the two must be kept in sync by hand, there is no shared source file.
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `primary` | `#3F7449` (forest green) | CTAs, links, active/selected state |
+| `primaryPressed` | `#356239` | Pressed state of primary buttons |
+| `accentMuted` | `#A1C8A8` (pale sage) | Soft badges (e.g. "Connected"), subtle highlights |
+| `recording` | `#E5484D` | Live/active-commute indicator only (not a destructive action) |
+| `destructive` | `#E5484D` | Delete/sign-out-adjacent destructive actions |
+| `warning` | `#D9A441` | Warning badges |
+| `background` | `#0A0D0B` | Screen background (near-black, green-tinted) |
+| `surface` | `#141917` | Card / input backgrounds |
+| `surfaceRaised` | `#1B211E` | Elevated cards, pressed secondary buttons |
+| `border` / `borderStrong` | `#242B26` / `#333C36` | Hairline borders; emphasized borders for outline buttons |
+| `textPrimary` / `textSecondary` / `textMuted` | `#F2F5F3` / `#9BA79E` / `#6B766F` | Body/headings, labels, placeholders |
+
+Radii are deliberately restrained (`sm 6 / md 8 / lg 10 / xl 14`, `full` reserved for true circles like Avatar) — buttons, inputs, cards, and badges use `md`/`lg`, not the pill/rounded-bubble shapes common to AI-generated UI. Badges are small rectangles (`sm` radius + hairline border), not pills.
+
+**Shared components** (`components/`): `Button` (primary solid / secondary outline / destructive solid, with a `loading` state), `Card` (default / elevated), `Badge` (default / success / warning), `Avatar` (circular, accent-ring), `Input` (themed `TextInput` wrapper used across all auth screens), `LiveMap` (see below).
+
+**Live map** (`components/LiveMap.tsx`, home screen only): `react-native-maps` + `expo-location`, showing the user's live position with a custom accent-green marker, a "LIVE" status pill, and a recenter button. Dark map styling: Android uses a custom `customMapStyle` JSON tuned to the app palette (`constants/mapStyle.ts`); iOS uses `MapView`'s native `userInterfaceStyle="dark"` (Apple Maps' own dark mode, since `customMapStyle` isn't supported by Apple Maps through this library). Works in Expo Go with no extra config; a Google/Apple Maps API key is only required for a production app-store build. Web has no native map support (`react-native-maps` ships an unimplemented stub there), so the component renders a branded fallback card instead of the map on `Platform.OS === 'web'`.
 
 ---
 

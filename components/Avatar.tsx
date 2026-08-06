@@ -24,6 +24,8 @@ export function Avatar({ name, imageUri, size = DEFAULT_SIZE }: AvatarProps) {
           height: size,
           borderRadius,
           backgroundColor: theme.colors.primary,
+          borderWidth: 2,
+          borderColor: theme.colors.accentMuted,
         },
       ]}
       accessibilityRole="image"
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   initial: {
-    color: theme.colors.surface,
+    color: theme.colors.primaryForeground,
     fontWeight: theme.fontWeight.semibold,
     textAlign: 'center',
   },

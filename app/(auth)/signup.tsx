@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native";
+import { View, Text, KeyboardAvoidingView, Platform } from "react-native";
 import { Link, router } from "expo-router";
 import { signUp } from "@/lib/auth";
 import { setPendingEmail } from "@/lib/storage";
+import { Input } from "@/components/Input";
+import { Button } from "@/components/Button";
 
 const UBC_EMAIL_REGEX = /^[^\s@]+@(student\.)?ubc\.ca$/i;
 
@@ -44,54 +46,50 @@ export default function Signup() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       className="flex-1 bg-background px-6 justify-center"
     >
-      <Text className="text-3xl font-bold text-text-primary mb-2">Create your account</Text>
-      <Text className="text-base text-text-secondary mb-8">
-        Only UBC students can join Commutity.
-      </Text>
+      <View className="mb-10">
+        <View className="w-10 h-10 rounded-md bg-primary items-center justify-center mb-6">
+          <Text className="text-primary-foreground font-sans-bold text-lg">C</Text>
+        </View>
+        <Text className="font-display text-3xl text-text-primary mb-2 tracking-tight">Create your account</Text>
+        <Text className="font-sans text-base text-text-secondary">
+          Only UBC students can join Commutity.
+        </Text>
+      </View>
 
-      <TextInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="you@student.ubc.ca"
-        placeholderTextColor="#64748B"
-        autoCapitalize="none"
-        keyboardType="email-address"
-        className="bg-surface border border-slate-200 rounded-xl px-4 py-3 mb-3 text-text-primary"
-      />
-      <TextInput
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Password"
-        placeholderTextColor="#64748B"
-        secureTextEntry
-        className="bg-surface border border-slate-200 rounded-xl px-4 py-3 mb-3 text-text-primary"
-      />
-      <TextInput
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        placeholder="Confirm password"
-        placeholderTextColor="#64748B"
-        secureTextEntry
-        className="bg-surface border border-slate-200 rounded-xl px-4 py-3 mb-2 text-text-primary"
-      />
+      <View className="gap-3">
+        <Input
+          value={email}
+          onChangeText={setEmail}
+          placeholder="you@student.ubc.ca"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          autoComplete="email"
+        />
+        <Input
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Password"
+          secureTextEntry
+          autoComplete="password-new"
+        />
+        <Input
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          placeholder="Confirm password"
+          secureTextEntry
+          autoComplete="password-new"
+        />
+      </View>
 
-      {error ? <Text className="text-red-600 text-sm mb-2">{error}</Text> : null}
+      {error ? <Text className="font-sans text-destructive text-sm mt-3">{error}</Text> : null}
 
-      <Pressable
-        onPress={handleSignup}
-        disabled={loading}
-        className="bg-primary rounded-xl py-4 items-center mt-4"
-      >
-        {loading ? (
-          <ActivityIndicator color="white" />
-        ) : (
-          <Text className="text-white font-semibold text-base">Sign Up</Text>
-        )}
-      </Pressable>
+      <View className="mt-6">
+        <Button label="Sign Up" onPress={handleSignup} variant="primary" loading={loading} />
+      </View>
 
       <View className="flex-row justify-center mt-6">
-        <Text className="text-text-secondary">Already have an account? </Text>
-        <Link href="/(auth)/login" className="text-primary font-semibold">
+        <Text className="font-sans text-text-secondary">Already have an account? </Text>
+        <Link href="/(auth)/login" className="font-sans-semibold text-primary">
           Sign In
         </Link>
       </View>

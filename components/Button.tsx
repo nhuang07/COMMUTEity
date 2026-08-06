@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { ActivityIndicator, Pressable, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { theme } from '../constants/theme';
 
 export interface ButtonProps {
@@ -7,6 +7,7 @@ export interface ButtonProps {
   onPress: () => void;
   variant: 'primary' | 'secondary' | 'destructive';
   disabled?: boolean;
+  loading?: boolean;
   size?: 'default' | 'large';
 }
 
@@ -15,31 +16,34 @@ export function Button({
   onPress,
   variant,
   disabled = false,
+  loading = false,
   size = 'default',
 }: ButtonProps) {
-  const containerStyle: ViewStyle[] = [
-    styles.base,
-    variantStyles[variant].container,
-    size === 'large' && styles.large,
-    disabled && styles.disabledContainer,
-  ].filter(Boolean) as ViewStyle[];
-
-  const textStyle: TextStyle[] = [
-    styles.label,
-    variantStyles[variant].label,
-    disabled && styles.disabledLabel,
-  ].filter(Boolean) as TextStyle[];
+  const v = variantStyles[variant];
+  const isDisabled = disabled || loading;
 
   return (
     <Pressable
-      onPress={disabled ? undefined : onPress}
-      disabled={disabled}
-      style={containerStyle}
+      onPress={isDisabled ? undefined : onPress}
+      disabled={isDisabled}
+      style={({ pressed }) => [
+        styles.base,
+        v.container,
+        size === 'large' && styles.large,
+        pressed && !isDisabled && [v.pressedContainer, styles.pressedScale],
+        disabled && styles.disabledContainer,
+      ]}
       accessibilityRole="button"
-      accessibilityState={{ disabled }}
+      accessibilityState={{ disabled: isDisabled, busy: loading }}
       accessibilityLabel={label}
     >
-      <Text style={textStyle}>{label}</Text>
+      {loading ? (
+        <ActivityIndicator color={v.label.color as string} />
+      ) : (
+        <Text style={[styles.label, v.label, disabled && styles.disabledLabel] as TextStyle[]}>
+          {label}
+        </Text>
+      )}
     </Pressable>
   );
 }
@@ -51,14 +55,20 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing.md,
     paddingHorizontal: theme.spacing.xl,
     borderRadius: theme.borderRadius.md,
+    borderWidth: 1,
+    borderColor: 'transparent',
   },
   large: {
     minHeight: 48,
     minWidth: 48,
   },
+  pressedScale: {
+    transform: [{ scale: 0.98 }],
+  },
   label: {
     fontSize: theme.fontSize.md,
-    fontWeight: theme.fontWeight.semibold,
+    fontFamily: theme.fontFamily.bold,
+    letterSpacing: -0.1,
   },
   disabledContainer: {
     backgroundColor: theme.colors.disabled,
@@ -70,31 +80,42 @@ const styles = StyleSheet.create({
   },
 });
 
-const variantStyles = {
-  primary: StyleSheet.create({
+const variantStyles: Record<
+  ButtonProps['variant'],
+  { container: ViewStyle; pressedContainer: ViewStyle; label: TextStyle }
+> = {
+  primary: {
     container: {
       backgroundColor: theme.colors.primary,
     },
-    label: {
-      color: theme.colors.surface,
+    pressedContainer: {
+      backgroundColor: theme.colors.primaryPressed,
     },
-  }),
-  secondary: StyleSheet.create({
+    label: {
+      color: theme.colors.primaryForeground,
+    },
+  },
+  secondary: {
     container: {
       backgroundColor: 'transparent',
-      borderWidth: 1,
-      borderColor: theme.colors.primary,
+      borderColor: theme.colors.borderStrong,
+    },
+    pressedContainer: {
+      backgroundColor: theme.colors.surfaceRaised,
     },
     label: {
-      color: theme.colors.primary,
+      color: theme.colors.textPrimary,
     },
-  }),
-  destructive: StyleSheet.create({
+  },
+  destructive: {
     container: {
       backgroundColor: theme.colors.destructive,
     },
-    label: {
-      color: theme.colors.surface,
+    pressedContainer: {
+      backgroundColor: '#C43A3E',
     },
-  }),
+    label: {
+      color: theme.colors.primaryForeground,
+    },
+  },
 };

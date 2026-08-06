@@ -49,6 +49,7 @@ export default function MatchesScreen() {
   if (notifications.filter((n) => n.status !== "rejected").length === 0) {
     return (
       <SafeAreaView style={styles.safeArea}>
+        <Text style={styles.heading}>Matches</Text>
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>
             Matches will appear after at least 2 tracked commutes with overlapping routes
@@ -61,6 +62,7 @@ export default function MatchesScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.heading}>Matches</Text>
         {pending.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Pending</Text>
@@ -80,13 +82,15 @@ export default function MatchesScreen() {
                   {expandedId === n.pairId && (
                     <View style={styles.actionsRow}>
                       <Button
-                        label={loadingId === n.pairId ? "…" : "Accept"}
+                        label="Accept"
                         variant="primary"
+                        loading={loadingId === n.pairId}
                         onPress={() => handleOptIn(n.pairId, true)}
                       />
                       <Button
                         label="Not Interested"
                         variant="secondary"
+                        disabled={loadingId === n.pairId}
                         onPress={() => handleOptIn(n.pairId, false)}
                       />
                     </View>
@@ -136,13 +140,22 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: theme.colors.background },
   scrollView: { flex: 1 },
   contentContainer: { padding: theme.spacing.lg, paddingBottom: theme.spacing.xxl },
+  heading: {
+    fontSize: theme.fontSize.xxl,
+    fontFamily: theme.fontFamilyDisplay.bold,
+    color: theme.colors.textPrimary,
+    letterSpacing: -0.5,
+    marginHorizontal: theme.spacing.lg,
+    marginTop: theme.spacing.lg,
+    marginBottom: theme.spacing.md,
+  },
   emptyContainer: { flex: 1, alignItems: "center", justifyContent: "center", padding: theme.spacing.xl },
-  emptyText: { fontSize: theme.fontSize.md, color: theme.colors.textSecondary, textAlign: "center" },
+  emptyText: { fontSize: theme.fontSize.md, fontFamily: theme.fontFamily.normal, color: theme.colors.textSecondary, textAlign: "center" },
   section: { marginBottom: theme.spacing.xl, gap: theme.spacing.md },
-  sectionTitle: { fontSize: theme.fontSize.xl, fontWeight: theme.fontWeight.bold, color: theme.colors.textPrimary, marginBottom: theme.spacing.sm },
+  sectionTitle: { fontSize: 12, fontFamily: theme.fontFamily.bold, color: theme.colors.textSecondary, marginBottom: theme.spacing.sm, textTransform: "uppercase", letterSpacing: 0.8 },
   cardHeader: { marginBottom: theme.spacing.sm },
-  explanation: { fontSize: theme.fontSize.sm, color: theme.colors.textSecondary, marginTop: theme.spacing.sm },
+  explanation: { fontSize: theme.fontSize.sm, fontFamily: theme.fontFamily.normal, color: theme.colors.textSecondary, marginTop: theme.spacing.sm, lineHeight: 20 },
   actionsRow: { flexDirection: "row", gap: theme.spacing.md, marginTop: theme.spacing.lg },
-  waitingContainer: { marginTop: theme.spacing.lg, padding: theme.spacing.sm, backgroundColor: theme.colors.border, borderRadius: theme.borderRadius.sm, alignItems: "center" },
-  waitingText: { fontSize: theme.fontSize.sm, fontWeight: theme.fontWeight.medium, color: theme.colors.textSecondary },
+  waitingContainer: { marginTop: theme.spacing.lg, padding: theme.spacing.sm, backgroundColor: theme.colors.surfaceRaised, borderWidth: 1, borderColor: theme.colors.border, borderRadius: theme.borderRadius.sm, alignItems: "center" },
+  waitingText: { fontSize: theme.fontSize.sm, fontFamily: theme.fontFamily.medium, color: theme.colors.textSecondary },
 });

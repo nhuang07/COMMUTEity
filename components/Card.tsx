@@ -43,20 +43,23 @@ const styles = StyleSheet.create({
     ...theme.shadow.sm,
   },
   elevated: {
+    backgroundColor: theme.colors.surfaceRaised,
+    borderColor: theme.colors.borderStrong,
     ...theme.shadow.md,
   },
   header: {
     marginBottom: theme.spacing.md,
+    gap: theme.spacing.xs,
   },
   title: {
     fontSize: theme.fontSize.lg,
-    fontWeight: theme.fontWeight.semibold,
+    fontFamily: theme.fontFamilyDisplay.semibold,
     color: theme.colors.textPrimary,
+    letterSpacing: -0.2,
   },
   subtitle: {
     fontSize: theme.fontSize.sm,
-    fontWeight: theme.fontWeight.normal,
+    fontFamily: theme.fontFamily.normal,
     color: theme.colors.textSecondary,
-    marginTop: theme.spacing.xs,
   },
 });

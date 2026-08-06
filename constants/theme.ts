@@ -1,16 +1,27 @@
 export const theme = {
   colors: {
-    primary: '#2563EB',         // blue-600 — CTA buttons
-    primaryActive: '#DC2626',   // red-600 — active commute state
-    success: '#16A34A',         // green-600 — mutual match
-    background: '#F8FAFC',      // slate-50 — screen backgrounds
-    surface: '#FFFFFF',         // white — card backgrounds
-    textPrimary: '#0F172A',     // slate-900 — headings, body
-    textSecondary: '#64748B',   // slate-500 — labels, timestamps
-    border: '#E2E8F0',         // slate-200 — subtle borders
-    disabled: '#CBD5E1',       // slate-300 — disabled elements
-    destructive: '#DC2626',    // red-600 — delete actions
-    warning: '#D97706',        // amber-600 — warning badges
+    // Forest-green accent system (dark-first) — replaces the prior generic blue.
+    primary: '#3F7449',         // forest green — CTAs, links, active states
+    primaryPressed: '#356239',  // pressed/hover state for primary
+    primaryForeground: '#F3FAF4',
+    accentMuted: '#A1C8A8',     // pale sage — soft badges, subtle highlights
+    accentMutedForeground: '#1B3320',
+
+    recording: '#E5484D',       // active/live commute indicator (not destructive)
+    success: '#3F7449',         // mutual match confirmed — same family as primary
+    warning: '#D9A441',
+    destructive: '#E5484D',
+
+    background: '#0A0D0B',      // near-black, green-tinted — screen backgrounds
+    surface: '#141917',         // card / input backgrounds
+    surfaceRaised: '#1B211E',   // popovers, active/elevated surfaces
+    border: '#242B26',          // hairline borders
+    borderStrong: '#333C36',    // emphasized borders (focus, dividers)
+
+    textPrimary: '#F2F5F3',
+    textSecondary: '#9BA79E',
+    textMuted: '#6B766F',
+    disabled: '#3A423D',
   },
   spacing: {
     xs: 4,
@@ -21,10 +32,10 @@ export const theme = {
     xxl: 32,
   },
   borderRadius: {
-    sm: 4,
+    sm: 6,
     md: 8,
-    lg: 12,
-    xl: 16,
+    lg: 10,
+    xl: 14,
     full: 9999,
   },
   fontSize: {
@@ -41,20 +52,34 @@ export const theme = {
     semibold: '600' as const,
     bold: '700' as const,
   },
+  // UI/body copy — Plus Jakarta Sans. Each RN "weight" is a distinct font file,
+  // so fontFamily (not fontWeight) is what actually changes weight on-screen.
+  fontFamily: {
+    normal: 'PlusJakartaSans_400Regular',
+    medium: 'PlusJakartaSans_500Medium',
+    semibold: 'PlusJakartaSans_600SemiBold',
+    bold: 'PlusJakartaSans_700Bold',
+  },
+  // Display/headings — Space Grotesk.
+  fontFamilyDisplay: {
+    medium: 'SpaceGrotesk_500Medium',
+    semibold: 'SpaceGrotesk_600SemiBold',
+    bold: 'SpaceGrotesk_700Bold',
+  },
   shadow: {
     sm: {
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.05,
-      shadowRadius: 2,
-      elevation: 1,
+      shadowOpacity: 0.24,
+      shadowRadius: 3,
+      elevation: 2,
     },
     md: {
       shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 3,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.32,
+      shadowRadius: 10,
+      elevation: 6,
     },
   },
 } as const;

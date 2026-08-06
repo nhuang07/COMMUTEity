@@ -9,26 +9,29 @@ export interface BadgeProps {
 
 const variantStyles = {
   default: {
-    backgroundColor: theme.colors.border,
-    color: theme.colors.textPrimary,
+    backgroundColor: theme.colors.surfaceRaised,
+    borderColor: theme.colors.border,
+    color: theme.colors.textSecondary,
   },
   success: {
-    backgroundColor: theme.colors.success + '20',
-    color: theme.colors.success,
+    backgroundColor: theme.colors.accentMuted,
+    borderColor: theme.colors.accentMuted,
+    color: theme.colors.accentMutedForeground,
   },
   warning: {
-    backgroundColor: theme.colors.warning + '20',
+    backgroundColor: theme.colors.warning + '26',
+    borderColor: theme.colors.warning + '4D',
     color: theme.colors.warning,
   },
 } as const;
 
 export function Badge({ label, variant }: BadgeProps) {
-  const { backgroundColor, color } = variantStyles[variant];
+  const { backgroundColor, borderColor, color } = variantStyles[variant];
 
   return (
-    <View style={[styles.container, { backgroundColor }]}>
+    <View style={[styles.container, { backgroundColor, borderColor }]}>
       <Text style={[styles.label, { color }]} numberOfLines={1}>
-        {label.slice(0, 20)}
+        {label.slice(0, 20).toUpperCase()}
       </Text>
     </View>
   );
@@ -37,12 +40,14 @@ export function Badge({ label, variant }: BadgeProps) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: theme.spacing.sm,
-    paddingVertical: theme.spacing.xs,
-    borderRadius: theme.borderRadius.full,
+    paddingVertical: 3,
+    borderRadius: theme.borderRadius.sm,
+    borderWidth: 1,
     alignSelf: 'flex-start',
   },
   label: {
-    fontSize: theme.fontSize.xs,
-    fontWeight: theme.fontWeight.medium,
+    fontSize: 11,
+    fontFamily: theme.fontFamily.bold,
+    letterSpacing: 0.6,
   },
 });
