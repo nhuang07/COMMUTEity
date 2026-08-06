@@ -50,10 +50,15 @@ export async function endCommute(params: {
   sessionId: string;
   checkpoints: Checkpoint[];
 }): Promise<CommuteNotification[]> {
+  // Backend expects { geohash, ts } where ts is unix seconds
+  const backendCheckpoints = params.checkpoints.map((cp) => ({
+    geohash: cp.geohash,
+    ts: Math.floor(new Date(cp.timestamp).getTime() / 1000),
+  }));
   const data = await post("/commute/end", {
     user_id: params.userId,
     session_id: params.sessionId,
-    checkpoints: params.checkpoints,
+    checkpoints: backendCheckpoints,
   });
   return (data.notifications as CommuteNotification[]) ?? [];
 }
