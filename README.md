@@ -35,13 +35,10 @@ API → AWS Lambda (/commute/end)
 The matching Lambda is synchronous: on `/commute/end`, it marks the session complete, scans other completed sessions, runs a pairwise overlap comparison, and returns any new matches — plus a Bedrock-generated explanation — in the same response.
 
 ## Tech stack
-
-| Layer          | Tech |
-        |---|---|
-| Mobile app     | React Native (Expo) |
-| Auth           | Amazon Cognito |
-| Database       | Amazon DynamoDB |
-| Compute        | AWS Lambda |
-| AI             | Amazon Bedrock (Claude Sonnet 4.5, via `us.` inference profile) |
-| Reference data | TransLink GTFS static feed |
+| Mobile app - React Native (Expo) |
+| Auth - Amazon Cognito |
+| Database - Amazon DynamoDB |
+| Compute - AWS Lambda |
+| AI - Amazon Bedrock (Claude Sonnet 4.5) |
+| Reference data - TransLink GTFS static feed |
 
