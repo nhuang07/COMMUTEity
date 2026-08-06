@@ -31,7 +31,7 @@ export default function Signup() {
     try {
       await signUp(email.trim(), password);
       setPendingEmail(email.trim());
-      router.push({ pathname: "/(auth)/verify", params: { email: email.trim() } });
+      router.push({ pathname: "/(auth)/verify", params: { email: email.trim(), password } });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Sign-up failed.");
     } finally {

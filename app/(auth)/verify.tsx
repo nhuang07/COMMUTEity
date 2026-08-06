@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { View, Text, TextInput, Pressable, ActivityIndicator } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { confirmSignUp, resendConfirmationCode } from "@/lib/auth";
+import { confirmSignUp, signIn, resendConfirmationCode } from "@/lib/auth";
+import { setUserId, setUserEmail, getPendingEmail } from "@/lib/storage";
 
 export default function Verify() {
-  const { email } = useLocalSearchParams<{ email: string }>();
+  const { email: emailParam, password: passwordParam } = useLocalSearchParams<{ email: string; password: string }>();
+  const email = emailParam || getPendingEmail() || "";
   const [code, setCode] = useState("");
+  const [password, setPassword] = useState(passwordParam || "");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
@@ -16,10 +19,18 @@ export default function Verify() {
       setError("Enter the 6-digit code we sent you.");
       return;
     }
+    if (!password) {
+      setError("Enter your password to complete sign-in.");
+      return;
+    }
     setError("");
     setLoading(true);
     try {
-      await confirmSignUp(email ?? "", code.trim());
+      await confirmSignUp(email, code.trim());
+      // Auto sign-in after successful verification
+      const result = await signIn(email, password);
+      setUserId(result.userId);
+      setUserEmail(email);
       router.replace("/(auth)/profile-setup");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Verification failed.");
@@ -45,7 +56,7 @@ export default function Verify() {
     <View className="flex-1 bg-background px-6 justify-center">
       <Text className="text-3xl font-bold text-text-primary mb-2">Check your email</Text>
       <Text className="text-base text-text-secondary mb-8">
-        We sent a 6-digit code to {email ?? "your UBC email"}.
+        We sent a 6-digit code to {email || "your UBC email"}.
       </Text>
 
       <TextInput
@@ -55,7 +66,16 @@ export default function Verify() {
         placeholderTextColor="#64748B"
         keyboardType="number-pad"
         maxLength={6}
-        className="bg-surface border border-slate-200 rounded-xl px-4 py-3 mb-2 text-text-primary text-center text-2xl tracking-widest"
+        className="bg-surface border border-slate-200 rounded-xl px-4 py-3 mb-3 text-text-primary text-center text-2xl tracking-widest"
+      />
+
+      <TextInput
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Re-enter your password"
+        placeholderTextColor="#64748B"
+        secureTextEntry
+        className="bg-surface border border-slate-200 rounded-xl px-4 py-3 mb-2 text-text-primary"
       />
 
       {error ? <Text className="text-red-600 text-sm mb-2">{error}</Text> : null}
