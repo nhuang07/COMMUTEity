@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native";
 import { Link, router } from "expo-router";
+import { signUp } from "@/lib/auth";
+import { setPendingEmail } from "@/lib/storage";
 
 const UBC_EMAIL_REGEX = /^[^\s@]+@(student\.)?ubc\.ca$/i;
 
@@ -9,8 +11,9 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleSignup() {
+  async function handleSignup() {
     if (!UBC_EMAIL_REGEX.test(email.trim())) {
       setError("Use your @student.ubc.ca or @ubc.ca email.");
       return;
@@ -24,8 +27,16 @@ export default function Signup() {
       return;
     }
     setError("");
-    // TODO: call lib/auth.ts sign-up (Cognito), then route to verify
-    router.push({ pathname: "/(auth)/verify", params: { email } });
+    setLoading(true);
+    try {
+      await signUp(email.trim(), password);
+      setPendingEmail(email.trim());
+      router.push({ pathname: "/(auth)/verify", params: { email: email.trim() } });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Sign-up failed.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -68,9 +79,14 @@ export default function Signup() {
 
       <Pressable
         onPress={handleSignup}
+        disabled={loading}
         className="bg-primary rounded-xl py-4 items-center mt-4"
       >
-        <Text className="text-white font-semibold text-base">Sign Up</Text>
+        {loading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text className="text-white font-semibold text-base">Sign Up</Text>
+        )}
       </Pressable>
 
       <View className="flex-row justify-center mt-6">

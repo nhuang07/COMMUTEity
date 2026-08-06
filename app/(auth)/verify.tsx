@@ -1,20 +1,44 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable } from "react-native";
+import { View, Text, TextInput, Pressable, ActivityIndicator } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
+import { confirmSignUp, resendConfirmationCode } from "@/lib/auth";
 
 export default function Verify() {
   const { email } = useLocalSearchParams<{ email: string }>();
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendDone, setResendDone] = useState(false);
 
-  function handleVerify() {
+  async function handleVerify() {
     if (code.trim().length !== 6) {
       setError("Enter the 6-digit code we sent you.");
       return;
     }
     setError("");
-    // TODO: call lib/auth.ts confirmSignUp with email + code
-    router.replace("/(auth)/profile-setup");
+    setLoading(true);
+    try {
+      await confirmSignUp(email ?? "", code.trim());
+      router.replace("/(auth)/profile-setup");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Verification failed.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleResend() {
+    if (!email) return;
+    setResendLoading(true);
+    try {
+      await resendConfirmationCode(email);
+      setResendDone(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not resend code.");
+    } finally {
+      setResendLoading(false);
+    }
   }
 
   return (
@@ -38,13 +62,24 @@ export default function Verify() {
 
       <Pressable
         onPress={handleVerify}
+        disabled={loading}
         className="bg-primary rounded-xl py-4 items-center mt-4"
       >
-        <Text className="text-white font-semibold text-base">Verify</Text>
+        {loading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text className="text-white font-semibold text-base">Verify</Text>
+        )}
       </Pressable>
 
-      <Pressable className="items-center mt-4">
-        <Text className="text-primary font-medium">Resend code</Text>
+      <Pressable onPress={handleResend} disabled={resendLoading} className="items-center mt-4">
+        {resendDone ? (
+          <Text className="text-text-secondary font-medium">Code resent!</Text>
+        ) : resendLoading ? (
+          <ActivityIndicator size="small" />
+        ) : (
+          <Text className="text-primary font-medium">Resend code</Text>
+        )}
       </Pressable>
     </View>
   );

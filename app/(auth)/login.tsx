@@ -1,19 +1,35 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native";
 import { Link, router } from "expo-router";
+import { signIn } from "@/lib/auth";
+import { setUserId, setUserEmail, setProfile } from "@/lib/storage";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleLogin() {
+  async function handleLogin() {
     if (!email.trim() || !password) {
       setError("Enter your email and password.");
       return;
     }
-    // TODO: call lib/auth.ts sign-in, then route based on onboarding status
-    router.replace("/(tabs)/home");
+    setError("");
+    setLoading(true);
+    try {
+      const result = await signIn(email.trim(), password);
+      setUserId(result.userId);
+      setUserEmail(email.trim());
+      // Set a minimal profile using the email prefix as display name
+      const displayName = email.trim().split("@")[0];
+      setProfile({ displayName, homeArea: "", destination: "UBC Vancouver" });
+      router.replace("/(tabs)/");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Sign-in failed.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -48,9 +64,14 @@ export default function Login() {
 
       <Pressable
         onPress={handleLogin}
+        disabled={loading}
         className="bg-primary rounded-xl py-4 items-center mt-4"
       >
-        <Text className="text-white font-semibold text-base">Sign In</Text>
+        {loading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text className="text-white font-semibold text-base">Sign In</Text>
+        )}
       </Pressable>
 
       <View className="flex-row justify-center mt-6">

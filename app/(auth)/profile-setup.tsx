@@ -1,34 +1,64 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, TextInput, Pressable, ScrollView, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native";
 import { router } from "expo-router";
+import { createProfile } from "@/lib/api";
+import { getUserId, getUserEmail, setProfile } from "@/lib/storage";
 
 const YEARS = ["1st year", "2nd year", "3rd year", "4th year", "5th+ year", "Grad student"];
+const CAMPUSES = ["UBC Vancouver", "UBC Okanagan"];
 
 export default function ProfileSetup() {
   const [name, setName] = useState("");
+  const [homeArea, setHomeArea] = useState("");
+  const [campus, setCampus] = useState<string | null>(null);
   const [major, setMajor] = useState("");
   const [year, setYear] = useState<string | null>(null);
   const [instagram, setInstagram] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [discord, setDiscord] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleComplete() {
-    if (!name.trim()) {
-      setError("Enter your display name.");
-      return;
-    }
-    if (!major.trim()) {
-      setError("Enter your major.");
-      return;
-    }
-    if (!year) {
-      setError("Select your year.");
-      return;
-    }
+  async function handleComplete() {
+    if (!name.trim()) { setError("Enter your display name."); return; }
+    if (!homeArea.trim()) { setError("Enter your home area (e.g. Burnaby)."); return; }
+    if (!campus) { setError("Select your campus."); return; }
     setError("");
-    // TODO: call lib/api.ts to PUT /profile with { name, major, year, socials }
-    router.replace("/(tabs)/home");
+    setLoading(true);
+    try {
+      const userId = await getUserId();
+      const email = getUserEmail();
+      if (!userId || !email) throw new Error("Session expired. Please sign in again.");
+
+      const socials = {
+        ...(instagram.trim() && { instagram: instagram.trim() }),
+        ...(linkedin.trim() && { linkedin: linkedin.trim() }),
+        ...(discord.trim() && { discord: discord.trim() }),
+      };
+
+      await createProfile({
+        userId,
+        email,
+        homeArea: homeArea.trim(),
+        destination: campus,
+        socials,
+      });
+
+      setProfile({
+        displayName: name.trim(),
+        homeArea: homeArea.trim(),
+        destination: campus,
+        ...(major.trim() && { faculty: major.trim() }),
+        ...(year && { year }),
+        socials,
+      });
+
+      router.replace("/(tabs)/");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Setup failed.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -51,6 +81,32 @@ export default function ProfileSetup() {
           className="bg-surface border border-slate-200 rounded-xl px-4 py-3 mb-5 text-text-primary"
         />
 
+        <Text className="text-sm font-semibold text-text-primary mb-2">Home area</Text>
+        <TextInput
+          value={homeArea}
+          onChangeText={setHomeArea}
+          placeholder="e.g. Burnaby, Richmond, Surrey"
+          placeholderTextColor="#64748B"
+          className="bg-surface border border-slate-200 rounded-xl px-4 py-3 mb-5 text-text-primary"
+        />
+
+        <Text className="text-sm font-semibold text-text-primary mb-2">Campus</Text>
+        <View className="flex-row gap-2 mb-5">
+          {CAMPUSES.map((c) => (
+            <Pressable
+              key={c}
+              onPress={() => setCampus(c)}
+              className={`px-4 py-2 rounded-full border ${
+                campus === c ? "bg-primary border-primary" : "bg-surface border-slate-200"
+              }`}
+            >
+              <Text className={campus === c ? "text-white font-medium" : "text-text-primary"}>
+                {c}
+              </Text>
+            </Pressable>
+          ))}
+        </View>
+
         <Text className="text-sm font-semibold text-text-primary mb-2">Major</Text>
         <TextInput
           value={major}
@@ -67,9 +123,7 @@ export default function ProfileSetup() {
               key={y}
               onPress={() => setYear(y)}
               className={`px-4 py-2 rounded-full border ${
-                year === y
-                  ? "bg-primary border-primary"
-                  : "bg-surface border-slate-200"
+                year === y ? "bg-primary border-primary" : "bg-surface border-slate-200"
               }`}
             >
               <Text className={year === y ? "text-white font-medium" : "text-text-primary"}>
@@ -111,9 +165,14 @@ export default function ProfileSetup() {
 
         <Pressable
           onPress={handleComplete}
+          disabled={loading}
           className="bg-primary rounded-xl py-4 items-center mt-6"
         >
-          <Text className="text-white font-semibold text-base">Finish Setup</Text>
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text className="text-white font-semibold text-base">Finish Setup</Text>
+          )}
         </Pressable>
       </ScrollView>
     </KeyboardAvoidingView>
