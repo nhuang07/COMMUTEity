@@ -1,0 +1,387 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Install dependencies and configure Expo Router": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041918473
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041929961
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042206887
+      }
+    ],
+    "1.2 Create directory structure for constants, components, and utils": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041918541
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042215321
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042279669
+      }
+    ],
+    "2.1 Define theme constants": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041918594
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042285919
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042414765
+      }
+    ],
+    "2.2 Define mock data constants with TypeScript interfaces": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041918722
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042286581
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042415537
+      }
+    ],
+    "3.1 Implement greeting utility": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041918779
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042420350
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042682242
+      }
+    ],
+    "3.2 Implement time formatting utilities": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041918822
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042421083
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042683947
+      }
+    ],
+    "3.3 Implement match helper utilities": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919007
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042422036
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042683972
+      }
+    ],
+    "3.4 Implement avatar utility": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919057
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042422555
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042684496
+      }
+    ],
+    "4. Checkpoint - Verify utilities compile": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919184
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043093729
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043145201
+      }
+    ],
+    "5.1 Implement Card component": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919256
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042694399
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042868110
+      }
+    ],
+    "5.2 Implement Button component": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919297
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042695078
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042868740
+      }
+    ],
+    "5.3 Implement Avatar component": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919339
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042695798
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042869556
+      }
+    ],
+    "5.4 Implement Badge component": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919374
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042696528
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042870241
+      }
+    ],
+    "6.1 Implement Home tab screen": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919405
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042874800
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043000585
+      }
+    ],
+    "6.2 Implement Track tab screen": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919492
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042875486
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043001420
+      }
+    ],
+    "6.3 Implement Matches tab screen": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919522
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042876263
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043002021
+      }
+    ],
+    "6.4 Implement Profile tab screen": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919550
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042877026
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043002747
+      }
+    ],
+    "7. Checkpoint - Verify app renders and navigates": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919605
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043148667
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043216170
+      }
+    ],
+    "8.1 Configure tab layout with icons and active/inactive styling": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919659
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043010550
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043077608
+      }
+    ],
+    "11. Final checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786041919687
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043224435
+      },
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043265753
+      }
+    ],
+    "1. Set up Expo Router and project structure": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042279690
+      }
+    ],
+    "2. Implement theme constants and mock data": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042415563
+      }
+    ],
+    "3. Implement utility functions": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042684522
+      }
+    ],
+    "5. Implement shared components": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786042870321
+      }
+    ],
+    "6. Implement tab screens": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043002771
+      }
+    ],
+    "8. Configure tab navigator with icons and styling": [
+      {
+        "executionId": "1ef47e1f-6693-404f-b8c0-d853d50d62b0",
+        "chatSessionId": "sess_13b12957-2793-4d05-a176-a7fa8e5e92ea",
+        "timestamp": 1786043077644
+      }
+    ]
+  }
+}
