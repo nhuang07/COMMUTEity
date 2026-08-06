@@ -30,15 +30,31 @@ def handler(event, context):
     checkpoints = body["checkpoints"]
     now = int(time.time())
 
+    # Convert any float values in checkpoints to int for DynamoDB compatibility
+    for cp in checkpoints:
+        if "ts" in cp:
+            cp["ts"] = int(cp["ts"])
+
     # 1. Mark this session completed
-    sessions_table.update_item(
-        Key={"user_id": user_id, "session_id": session_id},
-        UpdateExpression="SET #s = :completed, ended_at = :now, checkpoints = :cp",
-        ExpressionAttributeNames={"#s": "status"},
-        ExpressionAttributeValues={
-            ":completed": "completed", ":now": now, ":cp": checkpoints,
-        },
-    )
+    try:
+        sessions_table.update_item(
+            Key={"user_id": user_id, "session_id": session_id},
+            UpdateExpression="SET #s = :completed, ended_at = :now, checkpoints = :cp",
+            ExpressionAttributeNames={"#s": "status"},
+            ExpressionAttributeValues={
+                ":completed": "completed", ":now": now, ":cp": checkpoints,
+            },
+        )
+    except Exception:
+        # If session doesn't exist, create it directly
+        sessions_table.put_item(Item={
+            "user_id": user_id,
+            "session_id": session_id,
+            "status": "completed",
+            "checkpoints": checkpoints,
+            "started_at": now,
+            "ended_at": now,
+        })
 
     # 2. Fetch other users' recent completed sessions (scan — fine at demo scale)
     scan_result = sessions_table.scan(
