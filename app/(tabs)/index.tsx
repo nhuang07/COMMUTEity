@@ -16,6 +16,7 @@ interface CommuteState {
   status: "idle" | "active" | "uploading";
   sessionId: string | null;
   startedAt: number | null;
+  userId: string | null;
 }
 
 export default function HomeScreen() {
@@ -28,6 +29,7 @@ export default function HomeScreen() {
     status: "idle",
     sessionId: null,
     startedAt: null,
+    userId: null,
   });
   const [elapsed, setElapsed] = useState(0);
   const checkpointsRef = useRef<Checkpoint[]>([]);
@@ -76,7 +78,7 @@ export default function HomeScreen() {
       await sampleLocation();
       intervalRef.current = setInterval(sampleLocation, SAMPLE_INTERVAL_MS);
 
-      setCommute({ status: "active", sessionId, startedAt: Date.now() });
+      setCommute({ status: "active", sessionId, startedAt: Date.now(), userId });
       setElapsed(0);
     } catch (e) {
       Alert.alert("Error", e instanceof Error ? e.message : "Could not start commute.");
@@ -89,15 +91,12 @@ export default function HomeScreen() {
       intervalRef.current = null;
     }
 
-    const { sessionId } = commute;
-    if (!sessionId) return;
+    const { sessionId, userId } = commute;
+    if (!sessionId || !userId) return;
 
     setCommute((prev) => ({ ...prev, status: "uploading" }));
 
     try {
-      const userId = await getUserId();
-      if (!userId) throw new Error("Not signed in");
-
       const notifications = await endCommute({
         userId,
         sessionId,
@@ -107,7 +106,7 @@ export default function HomeScreen() {
       checkpointsRef.current = [];
       addNotifications(notifications);
 
-      setCommute({ status: "idle", sessionId: null, startedAt: null });
+      setCommute({ status: "idle", sessionId: null, startedAt: null, userId: null });
       setElapsed(0);
 
       if (notifications.length > 0) {
@@ -119,7 +118,7 @@ export default function HomeScreen() {
     } catch (e) {
       const msg = e instanceof Error ? e.message : JSON.stringify(e);
       Alert.alert("Upload failed", msg);
-      setCommute({ status: "idle", sessionId: null, startedAt: null });
+      setCommute({ status: "idle", sessionId: null, startedAt: null, userId: null });
       setElapsed(0);
     }
   }

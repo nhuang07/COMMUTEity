@@ -16,7 +16,19 @@ export default function MatchesScreen() {
   // Refresh from in-memory store whenever this tab comes into focus
   useFocusEffect(
     useCallback(() => {
-      setNotifications(getNotifications());
+      const stored = getNotifications();
+      // Add a demo match if there are no real notifications yet
+      const demoMatch: MatchNotification = {
+        pairId: "demo-pair-001",
+        otherUserId: "demo-user-sarah",
+        text: "You and Sarah both took the 99 B-Line from Metrotown to UBC around 8:15am on 3 consecutive days this week. You likely board at the same stop!",
+        status: "pending",
+      };
+      if (stored.length === 0) {
+        setNotifications([demoMatch]);
+      } else {
+        setNotifications(stored);
+      }
     }, [])
   );
 
