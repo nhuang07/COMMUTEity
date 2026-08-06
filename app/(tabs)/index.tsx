@@ -117,7 +117,8 @@ export default function HomeScreen() {
         );
       }
     } catch (e) {
-      Alert.alert("Upload failed", e instanceof Error ? e.message : "Could not upload commute.");
+      const msg = e instanceof Error ? e.message : JSON.stringify(e);
+      Alert.alert("Upload failed", msg);
       setCommute({ status: "idle", sessionId: null, startedAt: null });
       setElapsed(0);
     }

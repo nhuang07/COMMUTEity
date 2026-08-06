@@ -6,9 +6,15 @@ async function post(path: string, body: object): Promise<Record<string, unknown>
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  const data = (await res.json()) as Record<string, unknown>;
+  const text = await res.text();
+  let data: Record<string, unknown>;
+  try {
+    data = JSON.parse(text) as Record<string, unknown>;
+  } catch {
+    throw new Error(`API returned non-JSON (${res.status}): ${text.slice(0, 200)}`);
+  }
   if (!res.ok) {
-    throw new Error((data.message as string) || `API error ${res.status}`);
+    throw new Error((data.message as string) || `API error ${res.status}: ${text.slice(0, 200)}`);
   }
   return data;
 }
