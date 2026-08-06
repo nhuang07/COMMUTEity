@@ -7,12 +7,27 @@ whenever a new check-in session finishes. For now it's pure logic you
 can test locally before wiring it to DynamoDB/Lambda.
 """
 
+from datetime import datetime
+
 from geohash_utils import checkpoint_sequence
+
+
+def _epoch_seconds(point):
+    """
+    Checkpoints carry either a numeric "ts" (epoch seconds — used by the
+    local demo/tests below) or the app's real shape, "timestamp" (an ISO
+    8601 string, e.g. "2026-08-06T22:46:36.341Z"). Normalize either to
+    epoch seconds so callers can just subtract.
+    """
+    if "ts" in point:
+        return point["ts"]
+    return datetime.fromisoformat(point["timestamp"].replace("Z", "+00:00")).timestamp()
 
 
 def score_overlap(sequence_a, sequence_b, time_tolerance_seconds: int = 120):
     """
     sequence_a, sequence_b: lists of {"geohash": str, "ts": int}
+    or {"geohash": str, "timestamp": str} (ISO 8601) — see _epoch_seconds.
 
     Returns a dict:
       {
@@ -32,7 +47,7 @@ def score_overlap(sequence_a, sequence_b, time_tolerance_seconds: int = 120):
         for point_b in sequence_b:
             if point_a["geohash"] != point_b["geohash"]:
                 continue
-            if abs(point_a["ts"] - point_b["ts"]) <= time_tolerance_seconds:
+            if abs(_epoch_seconds(point_a) - _epoch_seconds(point_b)) <= time_tolerance_seconds:
                 matched_pairs.append((point_a, point_b))
                 break  # don't double-count point_a against multiple point_b's
 
